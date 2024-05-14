@@ -453,8 +453,7 @@ fun ScheduleScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(250.dp)
-                            .clip(RoundedCornerShape(20.dp))
+                            .height(150.dp)
                     ) {
                         itemsIndexed(
                             items = scheduleList,
@@ -466,36 +465,21 @@ fun ScheduleScreen(
                                 ) {
                                     var today = LocalDate.now()
                                     if (today.isEqual(item.scheduleDate)) {
-                                        Column(modifier = Modifier.background(Color(0xFF08A045))) {
-                                            Text(
-                                                text = "${item.scheduleTime}, ${
-                                                    item.scheduleDate.format(
-                                                        dateFormatter
-                                                    )
-                                                }",
-                                                color = Color.White,
-                                                fontSize = 13.sp,
-                                                textAlign = TextAlign.Center,
-                                                modifier = Modifier
-                                                    .padding(
-                                                        start = 15.dp,
-                                                        top = 5.dp,
-                                                        bottom = 5.dp,
-                                                        end = 10.dp
-                                                    )
-                                            )
-                                            Row(
-                                                modifier = Modifier.fillMaxWidth(),
-                                                verticalAlignment = Alignment.CenterVertically
-                                            )
-                                            {
+                                        Row(modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(20.dp))
+                                            .padding(bottom = 20.dp)) {
+                                            Column(modifier = Modifier.background(Color(0xFF08A045))) {
                                                 Text(
-                                                    text = "${item.firstTeamName}",
+                                                    text = "${item.scheduleTime}, ${
+                                                        item.scheduleDate.format(
+                                                            dateFormatter
+                                                        )
+                                                    }",
                                                     color = Color.White,
-                                                    textAlign = TextAlign.Center,
                                                     fontSize = 13.sp,
+                                                    textAlign = TextAlign.Center,
                                                     modifier = Modifier
-                                                        .weight(1f)
                                                         .padding(
                                                             start = 15.dp,
                                                             top = 5.dp,
@@ -503,86 +487,107 @@ fun ScheduleScreen(
                                                             end = 10.dp
                                                         )
                                                 )
-                                                Text(
-                                                    text = if (item.scoreMatch.isNullOrEmpty()) "vs" else "${item.scoreMatch}",
-                                                    color = Color.White,
-                                                    textAlign = TextAlign.Center,
-                                                    fontSize = 13.sp,
-                                                    modifier = Modifier
-                                                        .weight(0.5f)
-                                                        .padding(
-                                                            start = 15.dp,
-                                                            top = 5.dp,
-                                                            bottom = 5.dp,
-                                                            end = 10.dp
-                                                        )
+                                                Row(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    verticalAlignment = Alignment.CenterVertically
                                                 )
-                                                Text(
-                                                    text = "${item.secondTeamName}",
-                                                    color = Color.White,
-                                                    textAlign = TextAlign.Center,
-                                                    fontSize = 13.sp,
-                                                    modifier = Modifier
-                                                        .weight(1f)
-                                                        .padding(
-                                                            start = 15.dp,
-                                                            top = 5.dp,
-                                                            bottom = 5.dp,
-                                                            end = 10.dp
-                                                        )
-                                                )
-                                                Row() {
-                                                    IconButton(onClick = {
-                                                        openUpdateScheduleScreen(
-                                                            teamID,
-                                                            item.scheduleID
-                                                        )
-                                                    }) {
-                                                        Icon(
-                                                            Icons.Default.Edit,
-                                                            contentDescription = null,
-                                                            tint = Color.White
-                                                        )
-                                                    }
-                                                    IconButton(onClick = {
-                                                        GlobalScope.launch(Dispatchers.IO) {
-                                                            appDB.scheduleDAO().deleteSchedule(
-                                                                Schedule(
-                                                                    item.scheduleID,
-                                                                    item.teamID,
-                                                                    item.scheduleTime,
-                                                                    item.scheduleDate,
-                                                                    item.firstTeamName,
-                                                                    item.secondTeamName,
-                                                                    item.scoreMatch,
-                                                                    item.teamResultMatch
-                                                                )
+                                                {
+                                                    Text(
+                                                        text = "${item.firstTeamName}",
+                                                        color = Color.White,
+                                                        textAlign = TextAlign.Center,
+                                                        fontSize = 13.sp,
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .padding(
+                                                                start = 15.dp,
+                                                                top = 5.dp,
+                                                                bottom = 5.dp,
+                                                                end = 10.dp
                                                             )
-                                                            withContext(Dispatchers.Main) {
-                                                                deletedItem.add(item)
-                                                                Toast.makeText(
-                                                                    context,
-                                                                    "Xoá thành công",
-                                                                    Toast.LENGTH_SHORT
-                                                                ).show()
-                                                            }
+                                                    )
+                                                    Text(
+                                                        text = if (item.scoreMatch.isNullOrEmpty()) "vs" else "${item.scoreMatch}",
+                                                        color = Color.White,
+                                                        textAlign = TextAlign.Center,
+                                                        fontSize = 13.sp,
+                                                        modifier = Modifier
+                                                            .weight(0.5f)
+                                                            .padding(
+                                                                start = 15.dp,
+                                                                top = 5.dp,
+                                                                bottom = 5.dp,
+                                                                end = 10.dp
+                                                            )
+                                                    )
+                                                    Text(
+                                                        text = "${item.secondTeamName}",
+                                                        color = Color.White,
+                                                        textAlign = TextAlign.Center,
+                                                        fontSize = 13.sp,
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .padding(
+                                                                start = 15.dp,
+                                                                top = 5.dp,
+                                                                bottom = 5.dp,
+                                                                end = 10.dp
+                                                            )
+                                                    )
+                                                    Row() {
+                                                        IconButton(onClick = {
+                                                            openUpdateScheduleScreen(
+                                                                teamID,
+                                                                item.scheduleID
+                                                            )
+                                                        }) {
+                                                            Icon(
+                                                                Icons.Default.Edit,
+                                                                contentDescription = null,
+                                                                tint = Color.White
+                                                            )
                                                         }
-                                                    }) {
-                                                        Icon(
-                                                            Icons.Default.Delete,
-                                                            contentDescription = null,
-                                                            tint = Color.White
-                                                        )
+                                                        IconButton(onClick = {
+                                                            GlobalScope.launch(Dispatchers.IO) {
+                                                                appDB.scheduleDAO().deleteSchedule(
+                                                                    Schedule(
+                                                                        item.scheduleID,
+                                                                        item.teamID,
+                                                                        item.scheduleTime,
+                                                                        item.scheduleDate,
+                                                                        item.firstTeamName,
+                                                                        item.secondTeamName,
+                                                                        item.scoreMatch,
+                                                                        item.teamResultMatch
+                                                                    )
+                                                                )
+                                                                withContext(Dispatchers.Main) {
+                                                                    deletedItem.add(item)
+                                                                    Toast.makeText(
+                                                                        context,
+                                                                        "Xoá thành công",
+                                                                        Toast.LENGTH_SHORT
+                                                                    ).show()
+                                                                }
+                                                            }
+                                                        }) {
+                                                            Icon(
+                                                                Icons.Default.Delete,
+                                                                contentDescription = null,
+                                                                tint = Color.White
+                                                            )
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
+                                        Spacer(modifier = Modifier.height(15.dp))
                                     }
                                 }
                             }
                         )
                     }
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
                     Column {
                         Text(
                             text = "Sắp diễn ra",
@@ -596,8 +601,7 @@ fun ScheduleScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(250.dp)
-                            .clip(RoundedCornerShape(20.dp))
+                            .height(150.dp)
                     ) {
                         itemsIndexed(
                             items = scheduleList,
@@ -609,36 +613,21 @@ fun ScheduleScreen(
                                 ) {
                                     var today = LocalDate.now()
                                     if (today.isBefore(item.scheduleDate)) {
-                                        Column(modifier = Modifier.background(Color.White)) {
-                                            Text(
-                                                text = "${item.scheduleTime}, ${
-                                                    item.scheduleDate.format(
-                                                        dateFormatter
-                                                    )
-                                                }",
-                                                color = Color.Black,
-                                                fontSize = 13.sp,
-                                                textAlign = TextAlign.Center,
-                                                modifier = Modifier
-                                                    .padding(
-                                                        start = 15.dp,
-                                                        top = 5.dp,
-                                                        bottom = 5.dp,
-                                                        end = 10.dp
-                                                    )
-                                            )
-                                            Row(
-                                                modifier = Modifier.fillMaxWidth(),
-                                                verticalAlignment = Alignment.CenterVertically
-                                            )
-                                            {
+                                        Row(modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(20.dp))
+                                            .padding(bottom = 20.dp)) {
+                                            Column(modifier = Modifier.background(Color.White)) {
                                                 Text(
-                                                    text = "${item.firstTeamName}",
+                                                    text = "${item.scheduleTime}, ${
+                                                        item.scheduleDate.format(
+                                                            dateFormatter
+                                                        )
+                                                    }",
                                                     color = Color.Black,
-                                                    textAlign = TextAlign.Center,
                                                     fontSize = 13.sp,
+                                                    textAlign = TextAlign.Center,
                                                     modifier = Modifier
-                                                        .weight(1f)
                                                         .padding(
                                                             start = 15.dp,
                                                             top = 5.dp,
@@ -646,86 +635,107 @@ fun ScheduleScreen(
                                                             end = 10.dp
                                                         )
                                                 )
-                                                Text(
-                                                    text = if (item.scoreMatch.isNullOrEmpty()) "vs" else "${item.scoreMatch}",
-                                                    color = Color.Black,
-                                                    textAlign = TextAlign.Center,
-                                                    fontSize = 13.sp,
-                                                    modifier = Modifier
-                                                        .weight(0.5f)
-                                                        .padding(
-                                                            start = 15.dp,
-                                                            top = 5.dp,
-                                                            bottom = 5.dp,
-                                                            end = 10.dp
-                                                        )
+                                                Row(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    verticalAlignment = Alignment.CenterVertically
                                                 )
-                                                Text(
-                                                    text = "${item.secondTeamName}",
-                                                    color = Color.Black,
-                                                    textAlign = TextAlign.Center,
-                                                    fontSize = 13.sp,
-                                                    modifier = Modifier
-                                                        .weight(1f)
-                                                        .padding(
-                                                            start = 15.dp,
-                                                            top = 5.dp,
-                                                            bottom = 5.dp,
-                                                            end = 10.dp
-                                                        )
-                                                )
-                                                Row() {
-                                                    IconButton(onClick = {
-                                                        openUpdateScheduleScreen(
-                                                            teamID,
-                                                            item.scheduleID
-                                                        )
-                                                    }) {
-                                                        Icon(
-                                                            Icons.Default.Edit,
-                                                            contentDescription = null,
-                                                            tint = Color.Black
-                                                        )
-                                                    }
-                                                    IconButton(onClick = {
-                                                        GlobalScope.launch(Dispatchers.IO) {
-                                                            appDB.scheduleDAO().deleteSchedule(
-                                                                Schedule(
-                                                                    item.scheduleID,
-                                                                    item.teamID,
-                                                                    item.scheduleTime,
-                                                                    item.scheduleDate,
-                                                                    item.firstTeamName,
-                                                                    item.secondTeamName,
-                                                                    item.scoreMatch,
-                                                                    item.teamResultMatch
-                                                                )
+                                                {
+                                                    Text(
+                                                        text = "${item.firstTeamName}",
+                                                        color = Color.Black,
+                                                        textAlign = TextAlign.Center,
+                                                        fontSize = 13.sp,
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .padding(
+                                                                start = 15.dp,
+                                                                top = 5.dp,
+                                                                bottom = 5.dp,
+                                                                end = 10.dp
                                                             )
-                                                            withContext(Dispatchers.Main) {
-                                                                deletedItem.add(item)
-                                                                Toast.makeText(
-                                                                    context,
-                                                                    "Xoá thành công",
-                                                                    Toast.LENGTH_SHORT
-                                                                ).show()
-                                                            }
+                                                    )
+                                                    Text(
+                                                        text = if (item.scoreMatch.isNullOrEmpty()) "vs" else "${item.scoreMatch}",
+                                                        color = Color.Black,
+                                                        textAlign = TextAlign.Center,
+                                                        fontSize = 13.sp,
+                                                        modifier = Modifier
+                                                            .weight(0.5f)
+                                                            .padding(
+                                                                start = 15.dp,
+                                                                top = 5.dp,
+                                                                bottom = 5.dp,
+                                                                end = 10.dp
+                                                            )
+                                                    )
+                                                    Text(
+                                                        text = "${item.secondTeamName}",
+                                                        color = Color.Black,
+                                                        textAlign = TextAlign.Center,
+                                                        fontSize = 13.sp,
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .padding(
+                                                                start = 15.dp,
+                                                                top = 5.dp,
+                                                                bottom = 5.dp,
+                                                                end = 10.dp
+                                                            )
+                                                    )
+                                                    Row() {
+                                                        IconButton(onClick = {
+                                                            openUpdateScheduleScreen(
+                                                                teamID,
+                                                                item.scheduleID
+                                                            )
+                                                        }) {
+                                                            Icon(
+                                                                Icons.Default.Edit,
+                                                                contentDescription = null,
+                                                                tint = Color.Black
+                                                            )
                                                         }
-                                                    }) {
-                                                        Icon(
-                                                            Icons.Default.Delete,
-                                                            contentDescription = null,
-                                                            tint = Color.Black
-                                                        )
+                                                        IconButton(onClick = {
+                                                            GlobalScope.launch(Dispatchers.IO) {
+                                                                appDB.scheduleDAO().deleteSchedule(
+                                                                    Schedule(
+                                                                        item.scheduleID,
+                                                                        item.teamID,
+                                                                        item.scheduleTime,
+                                                                        item.scheduleDate,
+                                                                        item.firstTeamName,
+                                                                        item.secondTeamName,
+                                                                        item.scoreMatch,
+                                                                        item.teamResultMatch
+                                                                    )
+                                                                )
+                                                                withContext(Dispatchers.Main) {
+                                                                    deletedItem.add(item)
+                                                                    Toast.makeText(
+                                                                        context,
+                                                                        "Xoá thành công",
+                                                                        Toast.LENGTH_SHORT
+                                                                    ).show()
+                                                                }
+                                                            }
+                                                        }) {
+                                                            Icon(
+                                                                Icons.Default.Delete,
+                                                                contentDescription = null,
+                                                                tint = Color.Black
+                                                            )
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
+                                        Spacer(modifier = Modifier.height(15.dp))
                                     }
                                 }
                             }
                         )
                     }
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
                     Column {
                         Text(
                             text = "Đã kết thúc",
@@ -739,8 +749,7 @@ fun ScheduleScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(250.dp)
-                            .clip(RoundedCornerShape(20.dp))
+                            .height(150.dp)
                     ) {
                         itemsIndexed(
                             items = scheduleList,
@@ -752,36 +761,21 @@ fun ScheduleScreen(
                                 ) {
                                     var today = LocalDate.now()
                                     if (today.isAfter(item.scheduleDate)) {
-                                        Column(modifier = Modifier.background(Color.Yellow)) {
-                                            Text(
-                                                text = "${item.scheduleTime}, ${
-                                                    item.scheduleDate.format(
-                                                        dateFormatter
-                                                    )
-                                                }",
-                                                color = Color.Black,
-                                                fontSize = 13.sp,
-                                                textAlign = TextAlign.Center,
-                                                modifier = Modifier
-                                                    .padding(
-                                                        start = 15.dp,
-                                                        top = 5.dp,
-                                                        bottom = 5.dp,
-                                                        end = 10.dp
-                                                    )
-                                            )
-                                            Row(
-                                                modifier = Modifier.fillMaxWidth(),
-                                                verticalAlignment = Alignment.CenterVertically
-                                            )
-                                            {
+                                        Row(modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(20.dp))
+                                            .padding(bottom = 20.dp)) {
+                                            Column(modifier = Modifier.background(Color.White)) {
                                                 Text(
-                                                    text = "${item.firstTeamName}",
+                                                    text = "${item.scheduleTime}, ${
+                                                        item.scheduleDate.format(
+                                                            dateFormatter
+                                                        )
+                                                    }",
                                                     color = Color.Black,
-                                                    textAlign = TextAlign.Center,
                                                     fontSize = 13.sp,
+                                                    textAlign = TextAlign.Center,
                                                     modifier = Modifier
-                                                        .weight(1f)
                                                         .padding(
                                                             start = 15.dp,
                                                             top = 5.dp,
@@ -789,81 +783,102 @@ fun ScheduleScreen(
                                                             end = 10.dp
                                                         )
                                                 )
-                                                Text(
-                                                    text = if (item.scoreMatch.isNullOrEmpty()) "vs" else "${item.scoreMatch}",
-                                                    color = Color.Black,
-                                                    textAlign = TextAlign.Center,
-                                                    fontSize = 13.sp,
-                                                    modifier = Modifier
-                                                        .weight(0.5f)
-                                                        .padding(
-                                                            start = 15.dp,
-                                                            top = 5.dp,
-                                                            bottom = 5.dp,
-                                                            end = 10.dp
-                                                        )
+                                                Row(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    verticalAlignment = Alignment.CenterVertically
                                                 )
-                                                Text(
-                                                    text = "${item.secondTeamName}",
-                                                    color = Color.Black,
-                                                    textAlign = TextAlign.Center,
-                                                    fontSize = 13.sp,
-                                                    modifier = Modifier
-                                                        .weight(1f)
-                                                        .padding(
-                                                            start = 15.dp,
-                                                            top = 5.dp,
-                                                            bottom = 5.dp,
-                                                            end = 10.dp
-                                                        )
-                                                )
-                                                Row() {
-                                                    IconButton(onClick = {
-                                                        openUpdateScheduleScreen(
-                                                            teamID,
-                                                            item.scheduleID
-                                                        )
-                                                    }) {
-                                                        Icon(
-                                                            Icons.Default.Edit,
-                                                            contentDescription = null,
-                                                            tint = Color.Black
-                                                        )
-                                                    }
-                                                    IconButton(onClick = {
-                                                        showDialog = true
-                                                        GlobalScope.launch(Dispatchers.IO) {
-                                                            appDB.scheduleDAO().deleteSchedule(
-                                                                Schedule(
-                                                                    item.scheduleID,
-                                                                    item.teamID,
-                                                                    item.scheduleTime,
-                                                                    item.scheduleDate,
-                                                                    item.firstTeamName,
-                                                                    item.secondTeamName,
-                                                                    item.scoreMatch,
-                                                                    item.teamResultMatch
-                                                                )
+                                                {
+                                                    Text(
+                                                        text = "${item.firstTeamName}",
+                                                        color = Color.Black,
+                                                        textAlign = TextAlign.Center,
+                                                        fontSize = 13.sp,
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .padding(
+                                                                start = 15.dp,
+                                                                top = 5.dp,
+                                                                bottom = 5.dp,
+                                                                end = 10.dp
                                                             )
-                                                            withContext(Dispatchers.Main) {
-                                                                deletedItem.add(item)
-                                                                Toast.makeText(
-                                                                    context,
-                                                                    "Xoá thành công",
-                                                                    Toast.LENGTH_SHORT
-                                                                ).show()
-                                                            }
+                                                    )
+                                                    Text(
+                                                        text = if (item.scoreMatch.isNullOrEmpty()) "vs" else "${item.scoreMatch}",
+                                                        color = Color.Black,
+                                                        textAlign = TextAlign.Center,
+                                                        fontSize = 13.sp,
+                                                        modifier = Modifier
+                                                            .weight(0.5f)
+                                                            .padding(
+                                                                start = 15.dp,
+                                                                top = 5.dp,
+                                                                bottom = 5.dp,
+                                                                end = 10.dp
+                                                            )
+                                                    )
+                                                    Text(
+                                                        text = "${item.secondTeamName}",
+                                                        color = Color.Black,
+                                                        textAlign = TextAlign.Center,
+                                                        fontSize = 13.sp,
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .padding(
+                                                                start = 15.dp,
+                                                                top = 5.dp,
+                                                                bottom = 5.dp,
+                                                                end = 10.dp
+                                                            )
+                                                    )
+                                                    Row() {
+                                                        IconButton(onClick = {
+                                                            openUpdateScheduleScreen(
+                                                                teamID,
+                                                                item.scheduleID
+                                                            )
+                                                        }) {
+                                                            Icon(
+                                                                Icons.Default.Edit,
+                                                                contentDescription = null,
+                                                                tint = Color.Black
+                                                            )
                                                         }
-                                                    }) {
-                                                        Icon(
-                                                            Icons.Default.Delete,
-                                                            contentDescription = null,
-                                                            tint = Color.Black
-                                                        )
+                                                        IconButton(onClick = {
+                                                            showDialog = true
+                                                            GlobalScope.launch(Dispatchers.IO) {
+                                                                appDB.scheduleDAO().deleteSchedule(
+                                                                    Schedule(
+                                                                        item.scheduleID,
+                                                                        item.teamID,
+                                                                        item.scheduleTime,
+                                                                        item.scheduleDate,
+                                                                        item.firstTeamName,
+                                                                        item.secondTeamName,
+                                                                        item.scoreMatch,
+                                                                        item.teamResultMatch
+                                                                    )
+                                                                )
+                                                                withContext(Dispatchers.Main) {
+                                                                    deletedItem.add(item)
+                                                                    Toast.makeText(
+                                                                        context,
+                                                                        "Xoá thành công",
+                                                                        Toast.LENGTH_SHORT
+                                                                    ).show()
+                                                                }
+                                                            }
+                                                        }) {
+                                                            Icon(
+                                                                Icons.Default.Delete,
+                                                                contentDescription = null,
+                                                                tint = Color.Black
+                                                            )
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
+                                        Spacer(modifier = Modifier.height(15.dp))
                                     }
                                 }
                             }

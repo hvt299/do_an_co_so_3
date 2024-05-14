@@ -11,7 +11,7 @@ interface MemberDAO {
     @Query("SELECT * FROM member")
     fun getAllMembers(): List<Member>
 
-    @Query("SELECT * FROM member WHERE teamID = :teamID")
+    @Query("SELECT * FROM member WHERE teamID = :teamID ORDER BY memberJerseyNumber ASC")
     fun findByTeamID(teamID: Int): List<Member>
 
     @Query("SELECT * FROM member WHERE teamID = :teamID AND memberID = :memberID LIMIT 1")

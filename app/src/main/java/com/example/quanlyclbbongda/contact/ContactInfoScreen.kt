@@ -408,7 +408,7 @@ fun ContactInfoScreen(
             ) {
                 LazyColumn(
                     modifier = Modifier
-                        .height(400.dp)
+                        .height(600.dp)
                         .padding(vertical = 4.dp)
                 ) {itemsIndexed(
                     items = memberList,

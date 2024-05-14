@@ -14,7 +14,7 @@ interface ScheduleDAO {
     @Query("SELECT * FROM schedule")
     fun getALlSchedules(): List<Schedule>
 
-    @Query("SELECT * FROM schedule WHERE teamID = :teamID")
+    @Query("SELECT * FROM schedule WHERE teamID = :teamID ORDER BY scheduleDate DESC, scheduleTime DESC")
     fun findByTeamID(teamID: Int): List<Schedule>
 
     @Query("SELECT * FROM schedule WHERE teamID = :teamID AND scheduleID = :scheduleID LIMIT 1")
