@@ -20,6 +20,11 @@ interface ScheduleDAO {
     @Query("SELECT * FROM schedule WHERE teamID = :teamID AND scheduleID = :scheduleID LIMIT 1")
     fun findByTeamIDScheduleID(teamID: Int, scheduleID: Int): Schedule
 
+    @Query("SELECT COUNT(*) FROM schedule WHERE teamID = :teamID")
+    fun getTeamMatchTotalByTeamID(teamID: Int): Int
+    @Query("SELECT COUNT(*) FROM schedule WHERE teamID = :teamID AND teamResultMatch = :teamResultMatch")
+    fun getTeamResultMatchTotalByTeamID(teamID: Int, teamResultMatch: Int): Int
+
     @Query("UPDATE schedule SET scheduleTime = :scheduleTime, " +
             "scheduleDate = :scheduleDate, " +
             "firstTeamName = :firstTeamName, " +

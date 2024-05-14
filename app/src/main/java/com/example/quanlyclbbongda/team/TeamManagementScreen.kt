@@ -77,7 +77,8 @@ import kotlinx.coroutines.withContext
 fun TeamManagementScreen(
     teamID: Int,
     backHomeScreen: () -> Unit,
-    openUpdateMemberScreen: (teamID: Int, memberID: Int) -> Unit
+    openUpdateMemberScreen: (teamID: Int, memberID: Int) -> Unit,
+    openResultMatchChartScreen: (teamID: Int) -> Unit
 ) {
     var context = LocalContext.current
     var appDB: AppDatabase = AppDatabase.getDatabase(context)
@@ -135,201 +136,7 @@ fun TeamManagementScreen(
                 .padding(it)
                 .verticalScroll(rememberScrollState())
         ) {
-            var (col1, col2) = createRefs()
-
-//            Column(modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(10.dp)
-//                .clip(RoundedCornerShape(5.dp))
-//                .border(BorderStroke(1.dp, color = Color.Black))
-//                .shadow(elevation = 1.5.dp)
-//                .constrainAs(col1) {
-//                    top.linkTo(parent.top)
-//                    start.linkTo(parent.start)
-//                }) {
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth(),
-//                        .background(Color.LightGray),
-//                    horizontalArrangement = Arrangement.Center
-//                ) {
-//                    Text(text = "Cập nhật kết quả thi đấu", fontSize = 18.sp)
-//                }
-//                Spacer(modifier = Modifier.height(15.dp))
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(start = 15.dp)
-//                ) {
-//                    var isSelectedWin by remember {
-//                        mutableStateOf(true)
-//                    }
-//                    var isSelectedDraw by remember {
-//                        mutableStateOf(false)
-//                    }
-//                    var isSelectedLose by remember {
-//                        mutableStateOf(false)
-//                    }
-//                    Row(
-//                        modifier = Modifier.selectable(
-//                            selected = isSelectedWin,
-//                            onClick = {
-//                                isSelectedWin = !isSelectedWin
-//                                isSelectedDraw = false
-//                                isSelectedLose = false
-//                            },
-//                            role = Role.RadioButton
-//
-//                        )
-//                    ) {
-//                        RadioButton(
-//                            selected = isSelectedWin,
-//                            onClick = null,
-//                            colors = RadioButtonDefaults.colors(
-//                                selectedColor = Color.Red,
-//                                unselectedColor = Color.Black,
-//                                disabledSelectedColor = Color.Gray,
-//                                disabledUnselectedColor = Color.Gray
-//                            )
-//                        )
-//                        Text(text = "Thắng", modifier = Modifier.padding(horizontal = 10.dp))
-//                    }
-//
-//                    Row(
-//                        modifier = Modifier.selectable(
-//                            selected = isSelectedDraw,
-//                            onClick = {
-//                                isSelectedWin = false
-//                                isSelectedDraw = !isSelectedDraw
-//                                isSelectedLose = false
-//                            },
-//                            role = Role.RadioButton
-//
-//                        )
-//                    ) {
-//                        RadioButton(
-//                            selected = isSelectedDraw,
-//                            onClick = null,
-//                            colors = RadioButtonDefaults.colors(
-//                                selectedColor = Color.Red,
-//                                unselectedColor = Color.Black,
-//                                disabledSelectedColor = Color.Gray,
-//                                disabledUnselectedColor = Color.Gray
-//                            )
-//                        )
-//                        Text(text = "Hòa", modifier = Modifier.padding(horizontal = 10.dp))
-//                    }
-//
-//                    Row(
-//                        modifier = Modifier.selectable(
-//                            selected = isSelectedLose,
-//                            onClick = {
-//                                isSelectedWin = false
-//                                isSelectedDraw = false
-//                                isSelectedLose = !isSelectedLose
-//                            },
-//                            role = Role.RadioButton
-//
-//                        )
-//                    ) {
-//                        RadioButton(
-//                            selected = isSelectedLose,
-//                            onClick = null,
-//                            colors = RadioButtonDefaults.colors(
-//                                selectedColor = Color.Red,
-//                                unselectedColor = Color.Black,
-//                                disabledSelectedColor = Color.Gray,
-//                                disabledUnselectedColor = Color.Gray
-//                            )
-//                        )
-//                        Text(text = "Thua", modifier = Modifier.padding(horizontal = 10.dp))
-//                    }
-//                }
-//                Spacer(modifier = Modifier.height(10.dp))
-//                Row(
-//                    modifier = Modifier.padding(start = 15.dp),
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    horizontalArrangement = Arrangement.Center
-//                ) {
-//                    var tiso1 by remember {
-//                        mutableStateOf("")
-//                    }
-//                    var tiso2 by remember {
-//                        mutableStateOf("")
-//                    }
-//
-//                    Text(
-//                        text = "Tỉ số:",
-//                        fontSize = 16.sp,
-//                        modifier = Modifier.padding(end = 15.dp)
-//                    )
-//                    TextField(
-//                        value = tiso1, onValueChange = {
-//                            tiso1 = it
-//                        },
-//                        modifier = Modifier
-//                            .padding(end = 15.dp)
-//                            .width(30.dp)
-//                            .height(10.dp),
-//                        colors = TextFieldDefaults.colors(
-//                            unfocusedContainerColor = Color.Transparent,
-//                            focusedContainerColor = Color.Transparent
-//                        )
-//                    )
-//                    Text(
-//                        text = "-",
-//                        textAlign = TextAlign.Center,
-//                        modifier = Modifier.padding(end = 15.dp)
-//                    )
-//                    TextField(
-//                        value = tiso2, onValueChange = {
-//                            tiso2 = it
-//                        },
-//                        modifier = Modifier
-//                            .padding(end = 15.dp)
-//                            .width(30.dp)
-//                            .height(10.dp),
-//                        colors = TextFieldDefaults.colors(
-//                            unfocusedContainerColor = Color.Transparent,
-//                            focusedContainerColor = Color.Transparent
-//                        )
-//                    )
-//                    TextButton(onClick = { /*TODO*/ }) {
-//                        Text(
-//                            text = "Hủy",
-//                            fontSize = 16.sp,
-//                            color = Color.Red,
-//                            fontWeight = FontWeight.Bold,
-//                            textDecoration = TextDecoration.Underline
-//                        )
-//                    }
-//                    TextButton(onClick = { /*TODO*/ }) {
-//                        Text(
-//                            text = "Cập nhật",
-//                            fontSize = 16.sp,
-//                            color = Color.Blue,
-//                            fontWeight = FontWeight.Bold,
-//                            textDecoration = TextDecoration.Underline
-//                        )
-//                    }
-//                }
-//                Spacer(modifier = Modifier.height(10.dp))
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(start = 15.dp)
-//                ) {
-//                    TextButton(onClick = { /*TODO*/ }) {
-//                        Text(
-//                            text = "Thống kê kết quả thi đấu",
-//                            color = Color.Black,
-//                            fontSize = 16.sp,
-//                            textDecoration = TextDecoration.Underline
-//                        )
-//                    }
-//                }
-//            }
-
+            var (col1, col2, col3) = createRefs()
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -490,6 +297,28 @@ fun TeamManagementScreen(
                     )
                 }
             }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+                    .constrainAs(col3) {
+                        top.linkTo(col2.bottom)
+                        start.linkTo(parent.start)
+                    },
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                TextButton(onClick = {
+                    openResultMatchChartScreen(teamID)
+                }) {
+                    Text(
+                        text = "Thống kê kết quả thi đấu",
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        color = Color.Black
+                    )
+                }
+            }
         }
     }
 }
@@ -497,5 +326,5 @@ fun TeamManagementScreen(
 @Preview
 @Composable
 private fun TeamManagermentScreenPreview() {
-    TeamManagementScreen(teamID = 0, backHomeScreen = {}, openUpdateMemberScreen = {teamID, memberID ->  })
+    TeamManagementScreen(teamID = 0, backHomeScreen = {}, openUpdateMemberScreen = {teamID, memberID ->  }, openResultMatchChartScreen = {})
 }

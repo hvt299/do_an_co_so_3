@@ -17,6 +17,7 @@ import com.example.quanlyclbbongda.login_signup.SignUpScreen
 import com.example.quanlyclbbongda.schedule.ScheduleScreen
 import com.example.quanlyclbbongda.schedule.UpdateScheduleScreen
 import com.example.quanlyclbbongda.starter.CreateYourTeamScreen
+import com.example.quanlyclbbongda.team.ResultMatchChartScreen
 import com.example.quanlyclbbongda.team.UpdateMemberScreen
 import com.example.quanlyclbbongda.team.TeamInfoScreen
 import com.example.quanlyclbbongda.team.TeamManagementScreen
@@ -265,6 +266,9 @@ fun MainApp() {
                     },
                     openUpdateMemberScreen = { teamID, memberID ->
                         navController.navigate("updatemember/$teamID/$memberID")
+                    },
+                    openResultMatchChartScreen = {
+                        navController.navigate("resultmatchchart/$teamID")
                     }
                 )
             }
@@ -319,6 +323,23 @@ fun MainApp() {
                             inclusive = false,
                             saveState = true
                         )
+                    }
+                )
+            }
+
+            composable("resultmatchchart/{teamID}",
+                arguments = listOf(
+                    navArgument(name = "teamID") {
+                        type = NavType.IntType
+                    }
+                )
+            ) { backStackEntry ->
+                val teamID = backStackEntry.arguments?.getInt("teamID")
+                requireNotNull(teamID)
+                ResultMatchChartScreen(
+                    teamID = teamID,
+                    backTeamManagementScreen = {
+                        navController.popBackStack("teammanagement/{teamID}", inclusive = false, saveState = true)
                     }
                 )
             }
