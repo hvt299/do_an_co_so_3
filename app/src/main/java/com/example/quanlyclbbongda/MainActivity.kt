@@ -17,6 +17,7 @@ import com.example.quanlyclbbongda.login_signup.SignUpScreen
 import com.example.quanlyclbbongda.schedule.ScheduleScreen
 import com.example.quanlyclbbongda.schedule.UpdateScheduleScreen
 import com.example.quanlyclbbongda.starter.CreateYourTeamScreen
+import com.example.quanlyclbbongda.team.GoalChartScreen
 import com.example.quanlyclbbongda.team.ResultMatchChartScreen
 import com.example.quanlyclbbongda.team.UpdateMemberScreen
 import com.example.quanlyclbbongda.team.TeamInfoScreen
@@ -339,7 +340,42 @@ fun MainApp() {
                 ResultMatchChartScreen(
                     teamID = teamID,
                     backTeamManagementScreen = {
-                        navController.popBackStack("teammanagement/{teamID}", inclusive = false, saveState = true)
+                        navController.popBackStack(
+                            "teammanagement/{teamID}",
+                            inclusive = false,
+                            saveState = true
+                        )
+                    },
+                    openGoalChartScreen = {
+                        navController.navigate("goalchart/$teamID")
+                    }
+                )
+            }
+
+            composable("goalchart/{teamID}",
+                arguments = listOf(
+                    navArgument(name = "teamID") {
+                        type = NavType.IntType
+                    }
+                )
+            ) { backStackEntry ->
+                val teamID = backStackEntry.arguments?.getInt("teamID")
+                requireNotNull(teamID)
+                GoalChartScreen(
+                    teamID = teamID,
+                    backTeamManagementScreen = {
+                        navController.popBackStack(
+                            "teammanagement/{teamID}",
+                            inclusive = false,
+                            saveState = true
+                        )
+                    },
+                    backResultMatchChartScreen = {
+                        navController.popBackStack(
+                            "resultmatchchart/{teamID}",
+                            inclusive = false,
+                            saveState = true
+                        )
                     }
                 )
             }
