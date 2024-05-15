@@ -82,7 +82,8 @@ fun HomeScreen(
     openContactInfo: (userEmail: String, teamID: Int) -> Unit,
     openTeamInfoScreen: (userEmail: String, teamID: Int) -> Unit,
     openAboutUsScreen: () -> Unit,
-    openTeamManagermentScreen: (teamID: Int) -> Unit
+    openTeamManagementScreen: (teamID: Int) -> Unit,
+    openFundManagementScreen: (teamID: Int) -> Unit
 ) {
     var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     var scope = rememberCoroutineScope()
@@ -409,7 +410,9 @@ fun HomeScreen(
                     )
 
                 Button(
-                    onClick = {},
+                    onClick = {
+                              openFundManagementScreen(teamID)
+                    },
                     modifier = Modifier.constrainAs(btnQuanLyQuy) {
                         top.linkTo(horizontalGuideLine)
                         horizontalChain
@@ -439,7 +442,7 @@ fun HomeScreen(
 
                 Button(
                     onClick = {
-                        openTeamManagermentScreen(teamID)
+                        openTeamManagementScreen(teamID)
                     },
                     modifier = Modifier.constrainAs(btnQuanLyTeam) {
                         top.linkTo(horizontalGuideLine)
@@ -514,5 +517,7 @@ private fun HomeScreenPreview() {
         openContactInfo = {userEmail, teamID ->  },
         openTeamInfoScreen = {userEmail, teamID ->  },
         openAboutUsScreen = {},
-        openTeamManagermentScreen = {})
+        openTeamManagementScreen = {},
+        openFundManagementScreen = {}
+    )
 }

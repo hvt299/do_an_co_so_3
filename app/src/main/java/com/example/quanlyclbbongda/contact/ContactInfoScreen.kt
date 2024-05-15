@@ -516,4 +516,4 @@ fun ContactInfoScreen(
 @Composable
 private fun ContactInfoScreenPreview() {
     ContactInfoScreen(userEmail = "", teamID = 0, Logout = {}, backHomeScreen = {}, openScheduleScreen = {userEmail, teamID ->  }, openTeamInfo = {userEmail, teamID ->  }, openAboutUsScreen = {})
-}
+    }

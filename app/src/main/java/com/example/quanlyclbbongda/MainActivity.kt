@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.quanlyclbbongda.contact.AboutUsScreen
 import com.example.quanlyclbbongda.contact.ContactInfoScreen
+import com.example.quanlyclbbongda.fund.FundManagementScreen
 import com.example.quanlyclbbongda.home.HomeScreen
 import com.example.quanlyclbbongda.login_signup.LoginScreen
 import com.example.quanlyclbbongda.login_signup.SignUpScreen
@@ -109,8 +110,11 @@ fun MainApp() {
                     openAboutUsScreen = {
                         navController.navigate("aboutus")
                     },
-                    openTeamManagermentScreen = { teamID ->
+                    openTeamManagementScreen = { teamID ->
                         navController.navigate("teammanagement/$teamID")
+                    },
+                    openFundManagementScreen = {teamID ->
+                        navController.navigate("fundmanagement/$teamID")
                     }
                 )
             }
@@ -375,6 +379,33 @@ fun MainApp() {
                             "resultmatchchart/{teamID}",
                             inclusive = false,
                             saveState = true
+                        )
+                    }
+                )
+            }
+            composable(
+                "fundmanagement/{teamID}",
+                arguments = listOf(
+                    navArgument(name = "teamID"){
+                        type = NavType.IntType
+                    }
+                )
+            ){
+                navBackStackEntry ->
+                val teamID = navBackStackEntry.arguments?.getInt("teamID")
+                requireNotNull(teamID)
+                FundManagementScreen(
+                    teamID = teamID,
+                    backHomeScreen = {
+                        navController.popBackStack(
+                            "home/{userEmail}/{teamID}",
+                            inclusive = false,
+                            saveState = true
+                        )
+                    },
+                    viewStatistics = {
+                        navController.navigate(
+                            "ViewStatistics/{teamID}"
                         )
                     }
                 )
