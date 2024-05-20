@@ -13,9 +13,9 @@ import java.time.LocalTime
 data class Fund(
     @PrimaryKey(autoGenerate = true) var fundID: Int,
     @ColumnInfo var teamID: Int,
+    @ColumnInfo var amountOfMoney: Int,
     @ColumnInfo var contentFund: String,
-    @ColumnInfo var collectedFund: Int,
-    @ColumnInfo var spentFund: Int,
+    @ColumnInfo var typeOfFund: Int,
     @ColumnInfo var time: LocalTime,
     @ColumnInfo var date: LocalDate
 )

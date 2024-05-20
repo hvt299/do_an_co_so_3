@@ -12,6 +12,7 @@ import androidx.navigation.navArgument
 import com.example.quanlyclbbongda.contact.AboutUsScreen
 import com.example.quanlyclbbongda.contact.ContactInfoScreen
 import com.example.quanlyclbbongda.fund.FundManagementScreen
+import com.example.quanlyclbbongda.fund.UpdateFundScreen
 import com.example.quanlyclbbongda.home.HomeScreen
 import com.example.quanlyclbbongda.login_signup.LoginScreen
 import com.example.quanlyclbbongda.login_signup.SignUpScreen
@@ -113,7 +114,7 @@ fun MainApp() {
                     openTeamManagementScreen = { teamID ->
                         navController.navigate("teammanagement/$teamID")
                     },
-                    openFundManagementScreen = {teamID ->
+                    openFundManagementScreen = { teamID ->
                         navController.navigate("fundmanagement/$teamID")
                     }
                 )
@@ -386,12 +387,11 @@ fun MainApp() {
             composable(
                 "fundmanagement/{teamID}",
                 arguments = listOf(
-                    navArgument(name = "teamID"){
+                    navArgument(name = "teamID") {// navArgument all variable
                         type = NavType.IntType
                     }
                 )
-            ){
-                navBackStackEntry ->
+            ) { navBackStackEntry ->
                 val teamID = navBackStackEntry.arguments?.getInt("teamID")
                 requireNotNull(teamID)
                 FundManagementScreen(
@@ -405,7 +405,40 @@ fun MainApp() {
                     },
                     viewStatistics = {
                         navController.navigate(
-                            "ViewStatistics/{teamID}"
+                            "viewstatistics/$teamID"
+                        )
+                    },
+                    openUpdateFundScreen = { teamID, fundID ->
+                        navController.navigate(
+                            "updatefund/$teamID/$fundID"
+                        )
+                    }
+                )
+            }
+            composable(
+                "updatefund/{teamID}/{fundID}",
+                arguments = listOf(
+                    navArgument(name = "teamID"){
+                        type = NavType.IntType
+                    },
+                    navArgument(name = "fundID"){
+                        type = NavType.IntType
+                    }
+                )
+            ){
+                navBackStackEntry ->
+                val teamID = navBackStackEntry.arguments?.getInt("teamID")
+                val fundID = navBackStackEntry.arguments?.getInt("fundID")
+                requireNotNull(teamID)
+                requireNotNull(fundID)
+                UpdateFundScreen(
+                    teamID = teamID,
+                    fundID = fundID,
+                    backFundManagementScreen = {
+                        navController.popBackStack(
+                            "fundmanagement/{teamID}",
+                            inclusive = false,
+                            saveState = true
                         )
                     }
                 )
