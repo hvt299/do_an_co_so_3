@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Football Club Management</string>
+    <string name="title_activity_line_up_screen">LineUpScreen</string>
 </resources>
