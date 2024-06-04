@@ -11,7 +11,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -59,7 +58,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.quanlyclbbongda.R
 import com.example.quanlyclbbongda.data.AppDatabase
 import com.example.quanlyclbbongda.data.models.Fund
-import com.example.quanlyclbbongda.data.models.Member
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -75,7 +73,7 @@ import java.time.format.DateTimeFormatter
 fun FundManagementScreen(
     teamID: Int,
     backHomeScreen: () -> Unit,
-    viewStatistics: (teamID: Int) -> Unit,
+    openFundChartScreen: (teamID: Int) -> Unit,
     openUpdateFundScreen: (teamID: Int, fundID: Int) -> Unit
 ) {
     var context = LocalContext.current
@@ -339,7 +337,7 @@ fun FundManagementScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     TextButton(onClick = {
-                        // openResultMatchChartScreen(teamID)
+                         openFundChartScreen(teamID)
                     }) {
                         Text(
                             text = "Thống kê quỹ",

@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.quanlyclbbongda.contact.AboutUsScreen
 import com.example.quanlyclbbongda.contact.ContactInfoScreen
+import com.example.quanlyclbbongda.fund.FundChartScreen
 import com.example.quanlyclbbongda.fund.FundManagementScreen
 import com.example.quanlyclbbongda.fund.UpdateFundScreen
 import com.example.quanlyclbbongda.home.HomeScreen
@@ -403,9 +404,9 @@ fun MainApp() {
                             saveState = true
                         )
                     },
-                    viewStatistics = {
+                    openFundChartScreen = {
                         navController.navigate(
-                            "viewstatistics/$teamID"
+                            "fundchart/$teamID"
                         )
                     },
                     openUpdateFundScreen = { teamID, fundID ->
@@ -434,6 +435,27 @@ fun MainApp() {
                 UpdateFundScreen(
                     teamID = teamID,
                     fundID = fundID,
+                    backFundManagementScreen = {
+                        navController.popBackStack(
+                            "fundmanagement/{teamID}",
+                            inclusive = false,
+                            saveState = true
+                        )
+                    }
+                )
+            }
+
+            composable("fundchart/{teamID}",
+                arguments = listOf(
+                    navArgument(name = "teamID"){
+                        type = NavType.IntType
+                    }
+                )
+            ){ navBackStackEntry ->
+                val teamID = navBackStackEntry.arguments?.getInt("teamID")
+                requireNotNull(teamID)
+                FundChartScreen(
+                    teamID = teamID,
                     backFundManagementScreen = {
                         navController.popBackStack(
                             "fundmanagement/{teamID}",

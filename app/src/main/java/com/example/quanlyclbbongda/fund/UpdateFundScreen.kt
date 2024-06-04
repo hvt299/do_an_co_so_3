@@ -233,7 +233,7 @@ fun UpdateFundScreen(teamID: Int, fundID: Int, backFundManagementScreen: () -> U
                     fontSize = 16.sp,
                 ),
                 placeholder = {
-                    Text(text = "Nhập số tiền: ")
+                    Text(text = "Nhập số tiền")
                 },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
@@ -299,11 +299,9 @@ fun UpdateFundScreen(teamID: Int, fundID: Int, backFundManagementScreen: () -> U
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp)
                     .constrainAs(rowTypeOfFund) {
                         top.linkTo(tfContentFund.bottom, margin = 25.dp)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
+                        start.linkTo(tfContentFund.start)
                     },
             ) {
                 Row(
@@ -356,7 +354,7 @@ fun UpdateFundScreen(teamID: Int, fundID: Int, backFundManagementScreen: () -> U
 
             }
             Button(
-                onClick = { // sv Thai
+                onClick = {
                     if (!time.isNullOrEmpty() && !date.isNullOrEmpty() && !amountOfMoney.isNullOrEmpty() && !contentFund.isNullOrEmpty()) {
                         var typeOfFund = if (isCollection == true) 0 else 1
                         if (fundID == 0) {
@@ -410,7 +408,7 @@ fun UpdateFundScreen(teamID: Int, fundID: Int, backFundManagementScreen: () -> U
                     .width(80.dp)
                     .constrainAs(btnThayDoi) {
                         top.linkTo(rowTypeOfFund.bottom, margin = 25.dp)
-                        end.linkTo(parent.end)
+                        end.linkTo(tfContentFund.end)
                     },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xffea9010),
